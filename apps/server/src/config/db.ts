@@ -1,0 +1,12 @@
+import dns from "dns";
+
+dns.setServers(["1.1.1.1", "1.0.0.1"]);
+
+import mongoose from "mongoose";
+import { env } from "./env.js";
+
+export async function connectDb() {
+  mongoose.set("strictQuery", true);
+  await mongoose.connect(env.mongoUri);
+  console.log("MongoDB connected");
+}
