@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm --workspace apps/web run build",
-  "outputDirectory": "apps/web/dist",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
     {
