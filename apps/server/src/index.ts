@@ -18,7 +18,7 @@ const io = createSocketServer(server);
 
 app.set("io", io);
 app.use(helmet());
-app.use(cors({ origin: env.clientUrl, credentials: true }));
+app.use(cors({ origin: env.clientOrigins, credentials: true }));
 app.use(express.json({ limit: "2mb" }));
 app.use(morgan("dev"));
 app.use(rateLimit({ windowMs: 60_000, limit: 180 }));

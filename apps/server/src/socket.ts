@@ -9,7 +9,7 @@ const onlineUsers = new Map<string, string>();
 
 export function createSocketServer(server: Server) {
   const io = new SocketServer(server, {
-    cors: { origin: env.clientUrl, credentials: true }
+    cors: { origin: env.clientOrigins, credentials: true }
   });
 
   io.use((socket, next) => {

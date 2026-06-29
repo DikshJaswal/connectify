@@ -1,6 +1,8 @@
 import axios from "axios";
 
-export const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5000";
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim();
+
+export const API_URL = (configuredApiUrl || "http://localhost:5000").replace(/\/+$/, "");
 
 export const api = axios.create({
   baseURL: `${API_URL}/api`
@@ -13,6 +15,11 @@ api.interceptors.request.use((config) => {
 });
 
 export function apiError(error: unknown) {
-  if (axios.isAxiosError(error)) return error.response?.data?.message ?? error.message;
+  if (axios.isAxiosError(error)) {
+    if (!error.response && import.meta.env.PROD && API_URL.includes("localhost")) {
+      return "The deployed frontend is still pointing to localhost. Set VITE_API_URL to your deployed backend URL and redeploy.";
+    }
+    return error.response?.data?.message ?? error.message;
+  }
   return "Something went wrong";
 }

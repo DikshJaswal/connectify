@@ -70,11 +70,12 @@ Use `apps/server` as the API service.
 
 Required env vars on Render:
 
-- `CLIENT_URL` should be your frontend URL
+- `CLIENT_URL` should be your frontend URL. You can use comma-separated URLs if you have multiple allowed Vercel domains, for example `https://your-app.vercel.app,https://your-custom-domain.com`
 - `MONGO_URI` should be your Atlas connection string
 - `JWT_SECRET` should be a long random secret
 - `OPENAI_API_KEY` enables the AI Companion
 - `OPENAI_MODEL` is optional
+- `DNS_SERVERS` is optional. Only set it if your deployment has MongoDB DNS lookup issues, for example `1.1.1.1,1.0.0.1`
 - Cloudinary keys are optional but recommended for uploads
 
 The backend build and start commands are already defined in `apps/server/render.yaml`.
@@ -85,7 +86,7 @@ Use `apps/web` as the frontend app.
 
 Required env vars on Vercel:
 
-- `VITE_API_URL` should be your Render backend URL
+- `VITE_API_URL` should be your Render backend URL, for example `https://connectify-api.onrender.com`
 
 The Vercel config is already in `apps/web/vercel.json`.
 
@@ -115,6 +116,12 @@ The setup is working when:
 - The socket badge shows connected in the UI
 - Messages appear in both browser tabs in the same conversation
 - The AI Companion gives varied replies when `OPENAI_API_KEY` is set
+
+If signup or login shows a network error after deployment, check these first:
+
+- Vercel has `VITE_API_URL` set to the deployed Render backend URL, not `localhost`
+- Render has `CLIENT_URL` set to the deployed Vercel frontend URL, without a trailing slash
+- Both apps were redeployed after changing env vars
 
 ## Small deployment reminders
 
